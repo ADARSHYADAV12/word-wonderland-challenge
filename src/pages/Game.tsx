@@ -35,11 +35,12 @@ const GameContent = () => {
   } = useGame();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-background to-background/95">
       <Header />
 
-      <main className="container max-w-5xl pt-6 pb-16 px-4 space-y-6">
-        <div className="flex justify-between items-center">
+      <main className="container max-w-5xl mx-auto px-4 py-8 space-y-8">
+        {/* Game Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-card rounded-lg p-6 shadow-sm">
           <ChallengeHeader
             title={title}
             description={description}
@@ -51,32 +52,43 @@ const GameContent = () => {
           <Button
             variant="outline"
             size="sm"
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 hover:bg-primary hover:text-primary-foreground transition-colors"
             onClick={resetGame}
           >
-            <RefreshCw size={16} />
+            <RefreshCw className="h-4 w-4" />
             New Puzzle
           </Button>
         </div>
 
-        <WordGrid
-          size={grid.length}
-          letters={grid}
-          words={words}
-          onWordFound={findWord}
-          foundWords={foundWords}
-        />
+        {/* Game Grid Section */}
+        <div className="bg-card rounded-lg p-6 shadow-sm">
+          <WordGrid
+            size={grid.length}
+            letters={grid}
+            words={words}
+            onWordFound={findWord}
+            foundWords={foundWords}
+          />
+        </div>
 
-        <GameControls
-          wordsFound={foundWords.length}
-          totalWords={words.length}
-          hintsRemaining={hintsRemaining}
-          onUseHint={useHint}
-          onShare={shareResults}
-        />
+        {/* Game Controls and Word List Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-card rounded-lg p-6 shadow-sm">
+            <GameControls
+              wordsFound={foundWords.length}
+              totalWords={words.length}
+              hintsRemaining={hintsRemaining}
+              onUseHint={useHint}
+              onShare={shareResults}
+            />
+          </div>
 
-        <WordList words={words} foundWords={foundWords} />
+          <div className="bg-card rounded-lg p-6 shadow-sm">
+            <WordList words={words} foundWords={foundWords} />
+          </div>
+        </div>
 
+        {/* Modals */}
         <HintModal
           isOpen={isHintModalOpen}
           onClose={closeHintModal}
