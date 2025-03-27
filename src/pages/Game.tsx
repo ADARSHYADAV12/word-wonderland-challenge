@@ -1,15 +1,15 @@
-
-import React from 'react';
-import { GameProvider, useGame } from '@/contexts/GameContext';
-import Header from '@/components/layout/Header';
-import ChallengeHeader from '@/components/game/ChallengeHeader';
-import WordGrid from '@/components/game/WordGrid';
-import GameControls from '@/components/game/GameControls';
-import WordList from '@/components/game/WordList';
-import HintModal from '@/components/game/HintModal';
-import CompletionModal from '@/components/game/CompletionModal';
-import { Button } from '@/components/ui/button';
-import { RefreshCw } from 'lucide-react';
+import React from "react";
+import { GameProvider, useGame } from "@/contexts/GameContext";
+import Header from "@/components/layout/Header";
+import ChallengeHeader from "@/components/game/ChallengeHeader";
+import WordGrid from "@/components/game/WordGrid";
+import GameControls from "@/components/game/GameControls";
+import WordList from "@/components/game/WordList";
+import HintModal from "@/components/game/HintModal";
+import CompletionModal from "@/components/game/CompletionModal";
+import { Button } from "@/components/ui/button";
+import { RefreshCw } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 
 const GameContent = () => {
   const {
@@ -31,13 +31,13 @@ const GameContent = () => {
     closeHintModal,
     closeCompletionModal,
     shareResults,
-    resetGame
+    resetGame,
   } = useGame();
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <main className="container max-w-5xl pt-6 pb-16 px-4 space-y-6">
         <div className="flex justify-between items-center">
           <ChallengeHeader
@@ -47,10 +47,10 @@ const GameContent = () => {
             difficulty={difficulty}
             timeRemaining={formattedTime}
           />
-          
-          <Button 
-            variant="outline" 
-            size="sm" 
+
+          <Button
+            variant="outline"
+            size="sm"
             className="flex items-center gap-2"
             onClick={resetGame}
           >
@@ -58,14 +58,15 @@ const GameContent = () => {
             New Puzzle
           </Button>
         </div>
-        
+
         <WordGrid
           size={grid.length}
           letters={grid}
           words={words}
           onWordFound={findWord}
+          foundWords={foundWords}
         />
-        
+
         <GameControls
           wordsFound={foundWords.length}
           totalWords={words.length}
@@ -73,18 +74,15 @@ const GameContent = () => {
           onUseHint={useHint}
           onShare={shareResults}
         />
-        
-        <WordList
-          words={words}
-          foundWords={foundWords}
-        />
-        
+
+        <WordList words={words} foundWords={foundWords} />
+
         <HintModal
           isOpen={isHintModalOpen}
           onClose={closeHintModal}
           hint={currentHint}
         />
-        
+
         <CompletionModal
           isOpen={isCompletionModalOpen}
           onClose={closeCompletionModal}
@@ -92,7 +90,7 @@ const GameContent = () => {
             wordsFound: foundWords.length,
             totalWords: words.length,
             hintsUsed: hintsUsed,
-            timeElapsed: formattedTime
+            timeElapsed: formattedTime,
           }}
           onShare={shareResults}
         />
@@ -102,8 +100,19 @@ const GameContent = () => {
 };
 
 const Game = () => {
+  // Extract challenge ID and category from URL params
+  const [searchParams] = useSearchParams();
+  const challengeId = searchParams.get("id");
+  const category = searchParams.get("category");
+
+  // Create a unique random ID when none is provided (e.g., on direct navigation or refresh)
+  // This ensures we get a fresh puzzle on each page load
+  const uniqueId =
+    challengeId ||
+    `refresh-${Date.now()}-${Math.random().toString(36).substring(2, 10)}`;
+
   return (
-    <GameProvider>
+    <GameProvider challengeId={uniqueId} category={category || undefined}>
       <GameContent />
     </GameProvider>
   );
