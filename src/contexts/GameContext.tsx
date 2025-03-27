@@ -38,6 +38,7 @@ interface GameContextType extends GameState {
   closeHintModal: () => void;
   closeCompletionModal: () => void;
   shareResults: () => void;
+  resetGame: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -110,6 +111,39 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       ...prev,
       foundWords: [...prev.foundWords, word]
     }));
+  };
+  
+  const resetGame = () => {
+    const newChallenge = generateDailyChallenge();
+    
+    setGameState({
+      // Challenge data
+      title: newChallenge.title,
+      description: newChallenge.description,
+      difficulty: newChallenge.difficulty,
+      grid: newChallenge.grid,
+      words: newChallenge.words,
+      
+      // Reset game progress
+      foundWords: [],
+      hintsUsed: 0,
+      hintsRemaining: 3,
+      secondsElapsed: 0,
+      formattedTime: '0:00',
+      isGameComplete: false,
+      
+      // Reset modal states
+      isHintModalOpen: false,
+      isCompletionModalOpen: false,
+      currentHint: {
+        type: 'letter',
+        content: ''
+      }
+    });
+    
+    toast.success("New puzzle generated!", {
+      position: "top-center"
+    });
   };
   
   const useHint = () => {
@@ -251,7 +285,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         useHint,
         closeHintModal,
         closeCompletionModal,
-        shareResults
+        shareResults,
+        resetGame
       }}
     >
       {children}

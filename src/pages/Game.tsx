@@ -8,6 +8,8 @@ import GameControls from '@/components/game/GameControls';
 import WordList from '@/components/game/WordList';
 import HintModal from '@/components/game/HintModal';
 import CompletionModal from '@/components/game/CompletionModal';
+import { Button } from '@/components/ui/button';
+import { RefreshCw } from 'lucide-react';
 
 const GameContent = () => {
   const {
@@ -28,7 +30,8 @@ const GameContent = () => {
     useHint,
     closeHintModal,
     closeCompletionModal,
-    shareResults
+    shareResults,
+    resetGame
   } = useGame();
 
   return (
@@ -36,13 +39,25 @@ const GameContent = () => {
       <Header />
       
       <main className="container max-w-5xl pt-6 pb-16 px-4 space-y-6">
-        <ChallengeHeader
-          title={title}
-          description={description}
-          date={new Date()}
-          difficulty={difficulty}
-          timeRemaining={formattedTime}
-        />
+        <div className="flex justify-between items-center">
+          <ChallengeHeader
+            title={title}
+            description={description}
+            date={new Date()}
+            difficulty={difficulty}
+            timeRemaining={formattedTime}
+          />
+          
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="flex items-center gap-2"
+            onClick={resetGame}
+          >
+            <RefreshCw size={16} />
+            New Puzzle
+          </Button>
+        </div>
         
         <WordGrid
           size={grid.length}

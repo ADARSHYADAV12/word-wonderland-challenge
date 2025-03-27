@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -89,7 +88,12 @@ const WordGrid: React.FC<WordGridProps> = ({ size, letters, words, onWordFound }
     const selectedWord = currentSelection.map(letter => letter.char).join('');
     const reversedWord = currentSelection.map(letter => letter.char).reverse().join('');
     
-    if (words.includes(selectedWord) && !foundWords.includes(selectedWord)) {
+    // Check if the word exists in the word list (either forward or reversed)
+    const wordToCheck = words.find(word => 
+      word === selectedWord || word === reversedWord
+    );
+    
+    if (wordToCheck && !foundWords.includes(wordToCheck)) {
       // Word found!
       const newGrid = [...grid];
       currentSelection.forEach(letter => {
@@ -99,31 +103,14 @@ const WordGrid: React.FC<WordGridProps> = ({ size, letters, words, onWordFound }
       
       setGrid(newGrid);
       setCurrentSelection([]);
-      setFoundWords([...foundWords, selectedWord]);
-      onWordFound(selectedWord);
+      setFoundWords([...foundWords, wordToCheck]);
+      onWordFound(wordToCheck);
       
-      toast.success(`Found "${selectedWord}"!`, {
-        position: "top-center"
-      });
-    } 
-    else if (words.includes(reversedWord) && !foundWords.includes(reversedWord)) {
-      // Reversed word found!
-      const newGrid = [...grid];
-      currentSelection.forEach(letter => {
-        newGrid[letter.row][letter.col].isSelected = false;
-        newGrid[letter.row][letter.col].isCorrect = true;
-      });
-      
-      setGrid(newGrid);
-      setCurrentSelection([]);
-      setFoundWords([...foundWords, reversedWord]);
-      onWordFound(reversedWord);
-      
-      toast.success(`Found "${reversedWord}"!`, {
+      toast.success(`Found "${wordToCheck}"!`, {
         position: "top-center"
       });
     } else {
-      // Invalid word, clear selection
+      // Invalid word or already found, clear selection
       const newGrid = [...grid];
       currentSelection.forEach(letter => {
         newGrid[letter.row][letter.col].isSelected = false;
@@ -132,9 +119,15 @@ const WordGrid: React.FC<WordGridProps> = ({ size, letters, words, onWordFound }
       setGrid(newGrid);
       setCurrentSelection([]);
       
-      toast.error("Not a valid word", {
-        position: "top-center"
-      });
+      if (wordToCheck && foundWords.includes(wordToCheck)) {
+        toast.info("Word already found", {
+          position: "top-center"
+        });
+      } else {
+        toast.error("Not a valid word", {
+          position: "top-center"
+        });
+      }
     }
   };
   
