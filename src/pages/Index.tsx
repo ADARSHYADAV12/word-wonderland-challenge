@@ -179,7 +179,7 @@ const features = [
   },
   {
     title: 'Strategic Hints',
-    description: 'Stuck on a tough word? Use hints wisely to reveal letters or get a clue about the word's meaning.',
+    description: 'Stuck on a tough word? Use hints wisely to reveal letters or get a clue about the word\'s meaning.',
     icon: Lightbulb,
     iconColor: 'text-amber-500',
     iconBg: 'bg-amber-50'
