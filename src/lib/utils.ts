@@ -1,3 +1,4 @@
+
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -29,12 +30,14 @@ export function generateDailyChallenge() {
   const year = today.getFullYear();
   
   // Create a seed based on date - this ensures same puzzle for same day
-  const seed = parseInt(`${year}${month+1}${dayOfMonth}`);
+  const initialSeed = parseInt(`${year}${month+1}${dayOfMonth}`);
   
   // Simple pseudorandom number generator with seed
+  // Using a mutable seedValue that's separate from the const initialSeed
+  let seedValue = initialSeed;
   const seededRandom = function() {
-    let x = Math.sin(seed++) * 10000;
-    return x - Math.floor(x);
+    seedValue = (seedValue * 9301 + 49297) % 233280;
+    return seedValue / 233280;
   };
   
   // Choose a puzzle set based on the day
