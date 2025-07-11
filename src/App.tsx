@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Game from "./pages/Game";
 import Archive from "./pages/Archive";
+import Leaderboard from "./pages/Leaderboard";
+import HowToPlay from "./pages/HowToPlay";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +23,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/game" element={<Game />} />
           <Route path="/archive" element={<Archive />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/how-to-play" element={<HowToPlay />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
