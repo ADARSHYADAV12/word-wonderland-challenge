@@ -39,6 +39,22 @@ const WordGrid: React.FC<WordGridProps> = ({
     );
   });
 
+  // Update grid when letters prop changes (for new puzzles)
+  useEffect(() => {
+    const newGrid = letters.map((row, rowIndex) =>
+      row.map((char, colIndex) => ({
+        char,
+        row: rowIndex,
+        col: colIndex,
+        isSelected: false,
+        isCorrect: false,
+        isHighlighted: false,
+      }))
+    );
+    setGrid(newGrid);
+    setCurrentSelection([]);
+  }, [letters]);
+
   const [currentSelection, setCurrentSelection] = useState<Letter[]>([]);
 
   // Update grid when foundWords changes
