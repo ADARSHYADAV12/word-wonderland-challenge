@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, User, Settings, Trophy, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -14,8 +14,15 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
+import ProfileModal from '@/components/profile/ProfileModal';
+import AchievementsModal from '@/components/profile/AchievementsModal';
+import SettingsModal from '@/components/profile/SettingsModal';
 
 const Header = () => {
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [achievementsModalOpen, setAchievementsModalOpen] = useState(false);
+  const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+
   return (
     <header className="w-full h-16 px-4 border-b border-border bg-white/95 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-7xl h-full mx-auto flex items-center justify-between">
@@ -52,15 +59,15 @@ const Header = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setProfileModalOpen(true)}>
                 <User size={16} className="mr-2" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setAchievementsModalOpen(true)}>
                 <Trophy size={16} className="mr-2" />
                 <span>Achievements</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setSettingsModalOpen(true)}>
                 <Settings size={16} className="mr-2" />
                 <span>Settings</span>
               </DropdownMenuItem>
@@ -106,6 +113,20 @@ const Header = () => {
           </Sheet>
         </div>
       </div>
+      
+      {/* Modals */}
+      <ProfileModal 
+        isOpen={profileModalOpen} 
+        onClose={() => setProfileModalOpen(false)} 
+      />
+      <AchievementsModal 
+        isOpen={achievementsModalOpen} 
+        onClose={() => setAchievementsModalOpen(false)} 
+      />
+      <SettingsModal 
+        isOpen={settingsModalOpen} 
+        onClose={() => setSettingsModalOpen(false)} 
+      />
     </header>
   );
 };

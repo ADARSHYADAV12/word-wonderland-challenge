@@ -10,6 +10,7 @@ import CompletionModal from "@/components/game/CompletionModal";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
+import Footer from "@/components/layout/Footer";
 
 const GameContent = () => {
   const {
@@ -107,6 +108,7 @@ const GameContent = () => {
           onShare={shareResults}
         />
       </main>
+      <Footer />
     </div>
   );
 };

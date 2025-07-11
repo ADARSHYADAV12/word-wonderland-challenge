@@ -4,6 +4,7 @@ import { Trophy, Medal, Crown, Award, Star } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import {
   Table,
   TableBody,
@@ -286,6 +287,7 @@ const Leaderboard = () => {
           </motion.div>
         </motion.div>
       </div>
+      <Footer />
     </div>
   );
 };

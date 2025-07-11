@@ -14,6 +14,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const HowToPlay = () => {
   const gameSteps = [
@@ -337,6 +338,7 @@ const HowToPlay = () => {
           </motion.section>
         </motion.div>
       </div>
+      <Footer />
     </div>
   );
 };

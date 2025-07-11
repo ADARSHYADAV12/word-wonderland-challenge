@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const Index = () => {
   return (
@@ -177,6 +178,7 @@ const Index = () => {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 };
